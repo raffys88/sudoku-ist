@@ -18,7 +18,7 @@ int create_cell(cell_ptr position, int value, int side){
 	if (value){
 		
 		position->value = value;
-		position->possibles = 0;
+		position->possibles = j;
 		position->possible = NULL;
 	}
 	else {
@@ -36,6 +36,26 @@ int create_cell(cell_ptr position, int value, int side){
 		}
 		position->possibles = j;
 	}
+	position->possibles_orig = j;
 
+	return 0;
+}
+
+int get_value(cell_ptr position){
+	return position->value;
+}
+
+int is_possible_value(cell_ptr position, int value){
+	int i;
+	for (i=0; i < position->possibles; ++i) {
+		if (position->possible[i] == value) {
+			return 1;
+		}
+	}
+	
+	return 0;
+}
+
+int get_final(cell_ptr position){
 	return 0;
 }
