@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "cell.h"
 #include "serie_motor.h"
 #include "messages.h"
 
-
-struct cell **board;
+struct cell** board;
 
 
 int is_white_space(char c){
@@ -25,7 +25,7 @@ int is_white_space(char c){
 	return 0;
 }
 
-int read_board(FILE* input_file){
+int create_board(FILE* input_file){
 	char read_char, *aux;
 	int l, side=0, i = 0, j = 0, value;
 	
@@ -40,6 +40,20 @@ int read_board(FILE* input_file){
 	for(i=0; i<side; i++){
 		board[i] = (cell_ptr) calloc(side, sizeof(struct cell));
 		for (j=0; j<side;j++){
+			create_cell(&board[i][j], side);
+		}
+	}
+	return side;
+}
+
+void init_board(FILE* input_file, int side){
+	int i=0, j=0, value=0, k, n, l = sqrt(side);
+	
+	char read_char, *aux;
+	
+	for (i=0; i<side; ++i) {
+		for (j=0; j<side; ++j) {
+			
 			while(1){
 				read_char = getc(input_file);
 				if(is_white_space(read_char))
@@ -51,25 +65,66 @@ int read_board(FILE* input_file){
 			value = (int) strtol(&read_char, &aux, 10);
 			printf("%d ", value);
 			
-			create_cell(&board[i][j], value, side);
+			if (value) {
+				set_value(&board[i][j], value);
+				for (k=0; k<side; k++) {
+					delete_possible(&board[k][j], value, side);
+					delete_possible(&board[i][k], value, side);
+				}
+				int hoffset=(i*l)/side, voffset=(j*l)/side;
+				for (k=0; k<l; k++) {
+					for (n=0; n<l; n++) {
+		delete_possible(&board[k+hoffset*l][n+voffset*l],value, side);
+					}
+				}
+				
+			}
 			
 		}
-		printf("\n");		
+		printf("\n");
 	}
-	printf("\n\n\n\n\n\n\n\n\n");
-	return side;
 }
+
 
 
 void print_board(int side){
 	int i=0, j=0;
 	for (i=0; i<side; ++i) {
 		for (j=0; j<side; ++j) {
-			printf("%d ", board[i][j].value);
+			printf("%d ", get_value(&board[i][j]));
 		}
 		printf("\n");
 	}
 }
+
+
+void print_possibles_board(int side){
+	int i=0, j=0, k;
+	for (i=0; i<side; ++i) {
+		for (j=0; j<side; ++j) {
+			
+			for (k=0; k<side; k++){
+				if(board[i][j].possible){
+					if (board[i][j].possible[k]) {
+						printf("%d", board[i][j].possible[k]);
+					}
+					else
+						printf(".");
+				}
+				else {
+					printf("-");
+					//printf("%d", board[i][j].value);
+				}
+			}
+			printf("  ");
+		}
+		printf("\n\n");
+	}
+	
+}
+
+
+
 
 int main (int argc, const char * argv[]) {
     int side = 0;
@@ -83,9 +138,16 @@ int main (int argc, const char * argv[]) {
 		return 1;
 	}
 	
-	side = read_board(input_file);
+	side = create_board(input_file);
+
+	init_board(input_file, side);
 	
+	solve_sudoku(board, side);
 	
+	printf("\n");	
+	print_possibles_board(side);
+	
+	printf("\n");
 	print_board(side);
 	
 	
