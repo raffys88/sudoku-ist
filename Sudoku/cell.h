@@ -7,6 +7,11 @@
  *
  */
  
+
+#ifndef CELL_H
+#define CELL_H
+
+
 typedef struct cell{
 	int value;
 	int possibles;
@@ -14,11 +19,21 @@ typedef struct cell{
 }* cell_ptr;
 
 
-int create_cell(cell_ptr position, int value, int side);
+int create_cell(cell_ptr position, int side);
+
 
 int get_value(cell_ptr position);
 
+
 int is_possible_value(cell_ptr position, int value);
+
 
 int get_final(cell_ptr position);
 
+
+int set_value(cell_ptr position, int value);
+
+
+int delete_possible(cell_ptr position, int value, int side);
+
+#endif

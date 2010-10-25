@@ -7,6 +7,13 @@
  *
  */
 
+#ifndef MESSAGES_H
+#define MESSAGES_H
+
 /********** ERROR MESSAGES **********/
 const char* EFILE	= "ERROR: Error on file opening.\n";
 const char* EBOARD	= "ERROR: Error on board creation or file reading";
+
+
+
+#endif
