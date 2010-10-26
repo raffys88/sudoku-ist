@@ -61,9 +61,10 @@ int set_value(cell_ptr position, int value){
 
 
 int delete_possible(cell_ptr position, int value,int side){
-
+	//printf("\tpossibles-%d-", position->possibles);
 	int i =0;
-	if (position->possibles==0) {
+	if (position->possibles < 1) {
+	//	printf("%d\n", position->possibles);
 		return 0;
 	}
 	for (i=0; i<side; i++) {
@@ -75,8 +76,27 @@ int delete_possible(cell_ptr position, int value,int side){
 		}
 	}
 	
-	
+	//printf("%d\n", position->possibles);
 	return position->possibles;
+}
+
+
+int get_first_possible(cell_ptr position, int side){
+	int i = 0;
+	
+	for (i=0; i<side; i++) {
+		if (position->possible[i]) {
+			return position->possible[i];
+		}
+	}
+	
+	return 0;
+}
+
+
+
+int* get_possibles_list(cell_ptr position){
+	return position->possible;
 }
 
 

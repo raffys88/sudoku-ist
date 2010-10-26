@@ -13,6 +13,8 @@
 #include "cell.h"
 
 
+int found_value(struct cell** board, int side, int line, int col, int value);
+
 
 int solve_sudoku(struct cell** board, int side);
 

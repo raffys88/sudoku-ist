@@ -9,6 +9,7 @@
 struct cell** board;
 
 
+
 int is_white_space(char c){
 	
 	switch (c) {
@@ -25,11 +26,19 @@ int is_white_space(char c){
 	return 0;
 }
 
+
 int create_board(FILE* input_file){
 	char read_char, *aux;
 	int l, side=0, i = 0, j = 0, value;
 	
-	read_char = (char) fgetc(input_file);
+	while(1){
+		read_char = (char) getc(input_file);
+		if(is_white_space(read_char))
+			continue;
+		if (read_char == EOF)
+			return;
+		break;
+	}
 	
 	l = (int) strtol(&read_char, &aux, 10);
 	
@@ -46,9 +55,9 @@ int create_board(FILE* input_file){
 	return side;
 }
 
+
 void init_board(FILE* input_file, int side){
 	int i=0, j=0, value=0, k, n, l = sqrt(side);
-	
 	char read_char, *aux;
 	
 	for (i=0; i<side; ++i) {
@@ -59,27 +68,16 @@ void init_board(FILE* input_file, int side){
 				if(is_white_space(read_char))
 					continue;
 				if (read_char == EOF)
-					break;
+					return;
 				break;
 			}
 			value = (int) strtol(&read_char, &aux, 10);
 			printf("%d ", value);
 			
 			if (value) {
-				set_value(&board[i][j], value);
-				for (k=0; k<side; k++) {
-					delete_possible(&board[k][j], value, side);
-					delete_possible(&board[i][k], value, side);
-				}
-				int hoffset=(i*l)/side, voffset=(j*l)/side;
-				for (k=0; k<l; k++) {
-					for (n=0; n<l; n++) {
-		delete_possible(&board[k+hoffset*l][n+voffset*l],value, side);
-					}
-				}
+				found_value(board, side, i, j, value);
 				
 			}
-			
 		}
 		printf("\n");
 	}
@@ -102,7 +100,7 @@ void print_possibles_board(int side){
 	int i=0, j=0, k;
 	for (i=0; i<side; ++i) {
 		for (j=0; j<side; ++j) {
-			
+			printf("(%d)", board[i][j].possibles);
 			for (k=0; k<side; k++){
 				if(board[i][j].possible){
 					if (board[i][j].possible[k]) {
@@ -124,8 +122,6 @@ void print_possibles_board(int side){
 }
 
 
-
-
 int main (int argc, const char * argv[]) {
     int side = 0;
 	const char* filename = argv[1];
@@ -139,13 +135,15 @@ int main (int argc, const char * argv[]) {
 	}
 	
 	side = create_board(input_file);
-
+	
 	init_board(input_file, side);
+	
+	//print_possibles_board(side);
 	
 	solve_sudoku(board, side);
 	
 	printf("\n");	
-	print_possibles_board(side);
+	//print_possibles_board(side);
 	
 	printf("\n");
 	print_board(side);
