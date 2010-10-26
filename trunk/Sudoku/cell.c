@@ -18,7 +18,7 @@ int create_cell(cell_ptr position, int side){
 	position->possible = (int*) calloc(side, sizeof(int*));
 	position->value = 0;
 	position->possibles = side;
-		
+	
 	for (i = 0; i < side; i++) {
 		position->possible[i] = i+1;
 	}
@@ -62,17 +62,17 @@ int set_value(cell_ptr position, int value){
 
 int delete_possible(cell_ptr position, int value,int side){
 	//printf("\tpossibles-%d-", position->possibles);
-	int i =0;
+	int i;
 	if (position->possibles < 1) {
-	//	printf("%d\n", position->possibles);
+		//	printf("%d\n", position->possibles);
 		return 0;
 	}
 	for (i=0; i<side; i++) {
 		
 		if (position->possible[i] == value) {
 			position->possible[i] = 0;
-			position->possibles--;
-			break;
+			position->possibles-=1;
+			return position->possibles;
 		}
 	}
 	
