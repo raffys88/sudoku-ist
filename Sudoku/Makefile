@@ -14,3 +14,8 @@ clear:
 	clear
 	
 myne: clear build
+
+run_valgrind:
+	valgrind ./sudoku board.txt
+
+valgrind: clear build run_valgrind 
