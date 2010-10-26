@@ -36,4 +36,10 @@ int set_value(cell_ptr position, int value);
 
 int delete_possible(cell_ptr position, int value, int side);
 
+
+int get_first_possible(cell_ptr position, int side);
+
+
+int* get_possibles_list(cell_ptr position);
+
 #endif
