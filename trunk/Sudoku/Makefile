@@ -5,7 +5,14 @@ build: sudoku.c messages.h cell.c serie_motor.c
 	$(CC) $(CCFLAGS) -o sudoku sudoku.c messages.h cell.c serie_motor.c
 	
 run: build
-	./sudoku board.txt
+	./sudoku board.txt 
+	
+	
+	
+	
+	
+	
+	> result.txt
 
 
 all: clear build run
