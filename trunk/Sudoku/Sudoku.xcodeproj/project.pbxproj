@@ -13,6 +13,8 @@
 		38576A47126E4E5100415844 /* messages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = messages.h; sourceTree = "<group>"; };
 		38576A62126E531200415844 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		38576AAC126E58B300415844 /* board.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = board.txt; sourceTree = "<group>"; };
+		38A5E46B127812810072B9DA /* check.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = check.c; sourceTree = "<group>"; };
+		38A5E46C127812A20072B9DA /* result.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = result.txt; sourceTree = "<group>"; };
 		38BD5130126EDA29003CADFB /* cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cell.h; sourceTree = "<group>"; };
 		38BD5131126EDA29003CADFB /* cell.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cell.c; sourceTree = "<group>"; };
 		C6A0FF2C0290799A04C91782 /* Sudoku.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Sudoku.1; sourceTree = "<group>"; };
@@ -32,6 +34,7 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				38A5E46B127812810072B9DA /* check.c */,
 				38576A47126E4E5100415844 /* messages.h */,
 				08FB7796FE84155DC02AAC07 /* sudoku.c */,
 				38576A10126E39C100415844 /* serie_motor.h */,
@@ -40,6 +43,7 @@
 				38576AAC126E58B300415844 /* board.txt */,
 				38BD5130126EDA29003CADFB /* cell.h */,
 				38BD5131126EDA29003CADFB /* cell.c */,
+				38A5E46C127812A20072B9DA /* result.txt */,
 			);
 			name = Source;
 			sourceTree = "<group>";
