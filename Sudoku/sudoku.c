@@ -72,14 +72,14 @@ void init_board(FILE* input_file, int side){
 				break;
 			}
 			value = (int) strtol(&read_char, &aux, 10);
-			printf("%d ", value);
+//			printf("%d ", value);
 			
 			if (value) {
 				found_value(board, side, i, j, value);
 				
 			}
 		}
-		printf("\n");
+//		printf("\n");
 	}
 }
 
@@ -142,10 +142,8 @@ int main (int argc, const char * argv[]) {
 	
 	solve_sudoku(board, side);
 	
-	printf("\n");	
 	//print_possibles_board(side);
 	
-	printf("\n");
 	print_board(side);
 	
 	
