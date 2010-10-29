@@ -28,19 +28,9 @@ int is_white_space(char c){
 
 
 int create_board(FILE* input_file){
-	char read_char, *aux;
-	int l, side=0, i = 0, j = 0, value;
+	int l, side=0, i = 0, j = 0;
 	
-	while(1){
-		read_char = (char) getc(input_file);
-		if(is_white_space(read_char))
-			continue;
-		if (read_char == EOF)
-			return;
-		break;
-	}
-	
-	l = (int) strtol(&read_char, &aux, 10);
+	fscanf(input_file, "%d", &l);
 	
 	side = l * l;
 	
@@ -57,21 +47,13 @@ int create_board(FILE* input_file){
 
 
 void init_board(FILE* input_file, int side){
-	int i=0, j=0, value=0, k, n, l = sqrt(side);
-	char read_char, *aux;
+	int i=0, j=0, value=0;
 	
 	for (i=0; i<side; ++i) {
 		for (j=0; j<side; ++j) {
 			
-			while(1){
-				read_char = getc(input_file);
-				if(is_white_space(read_char))
-					continue;
-				if (read_char == EOF)
-					return;
-				break;
-			}
-			value = (int) strtol(&read_char, &aux, 10);
+			
+			fscanf(input_file, "%d", &value);
 //			printf("%d ", value);
 			
 			if (value) {
@@ -89,7 +71,7 @@ void print_board(int side){
 	int i=0, j=0;
 	for (i=0; i<side; ++i) {
 		for (j=0; j<side; ++j) {
-			printf("%d ", get_value(&board[i][j]));
+			printf("%2d ", get_value(&board[i][j]));
 		}
 		printf("\n");
 	}
@@ -100,11 +82,11 @@ void print_possibles_board(int side){
 	int i=0, j=0, k;
 	for (i=0; i<side; ++i) {
 		for (j=0; j<side; ++j) {
-			printf("(%d)", board[i][j].possibles);
+			printf("(%2d)", board[i][j].possibles);
 			for (k=0; k<side; k++){
 				if(board[i][j].possible){
 					if (board[i][j].possible[k]) {
-						printf("%d", board[i][j].possible[k]);
+						printf("%2d", board[i][j].possible[k]);
 					}
 					else
 						printf(".");
@@ -128,7 +110,7 @@ int main (int argc, const char * argv[]) {
 	FILE* input_file;
 	
 	
-	input_file = input_file = fopen(filename, "r");
+	input_file = fopen(filename, "r");
 	if (!input_file){
 		perror(EFILE);
 		return 1;
@@ -144,7 +126,7 @@ int main (int argc, const char * argv[]) {
 	
 	//print_possibles_board(side);
 	
-	print_board(side);
+	//print_board(side);
 	
 	
 	return 0;

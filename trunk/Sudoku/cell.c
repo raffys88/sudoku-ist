@@ -13,7 +13,7 @@
 #include "cell.h"
 
 int create_cell(cell_ptr position, int side){
-	int i = 0, j = 0;
+	int i = 0;
 	
 	position->possible = (int*) calloc(side, sizeof(int*));
 	position->value = 0;

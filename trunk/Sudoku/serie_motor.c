@@ -23,28 +23,41 @@ int found_value(struct cell** board, int side, int line, int col, int value){
 	set_value(&board[line][col], value);
 	
 	for (k=0; k<side; k++) {
-		
-		if(delete_possible(&board[k][col], value, side) == 1)
-			found_value(board, side, k, col, get_first_possible(&board[k][col], side));
-		
-		if(delete_possible(&board[line][k], value, side) == 1)
-			found_value(board, side, line, k, get_first_possible(&board[line][k], side));
+		delete_possible(&board[k][col], value, side);
+		delete_possible(&board[line][k], value, side);
 	}
 	
 	int hoffset=(line*l)/side, voffset=(col*l)/side;
 	
 	for (k=0; k<l; k++) {
 		for (n=0; n<l; n++) {
-			if (delete_possible(&board[k+hoffset*l][n+voffset*l],value, side) == 1) {
-				found_value(board, side, k+hoffset*l, n+voffset*l, get_first_possible(&board[k+hoffset*l][n+voffset*l], side));
-			}
+			delete_possible(&board[k+hoffset*l][n+voffset*l],value, side);
 		}
 	}
 	return 0;
 }
 
+int alone(struct cell** board, int side){
+	int dif=0, i, j, k;
+		for (i=0; i<side; ++i) {
+			for (j=0; j<side; ++j) {
+				if ((board[i][j].possibles)==1) {
+					for (k=0; k<side; ++k) {
+						if (board[i][j].possible[k]) {
+							dif = 1;
+							found_value(board, side, i, j, board[i][j].possible[k]);
+							break;
+						}
+					}
+				}
+			}
+		}
+	return dif;
+}
+
+
 int singleton(struct cell** board, int side){
-	int i, j, *vec, k, n, x, m, acc, val;
+	int i, j, k, n, x, m, acc, val;
 	int l = sqrt(side);
 	//int acc[side];
 	int* line[side];
@@ -150,49 +163,50 @@ int singleton(struct cell** board, int side){
 	return ret;
 }
 
+
 int check_solution(struct cell** board, int side){
 	int i, j, x, k, n, aux, l=sqrt(side);
 	int acc[side];
 	
 	
 	//ROW
-	for (k=0; k<side; ++k) {
-		for (i=0; 1<side; ++i) {
+	for (k=0; k < side; ++k) {
+		
+		for (i=0; i<side; ++i) {
 			acc[i]=0;
 		}
 		
-		for (i=0; 1<side; ++i) {
-			if (aux = get_value(&board[k][i])) {
+		for (i=0; i < side; ++i) {
+			if ((aux = get_value(&board[k][i]))) {
 				acc[aux-1]++;}
 			else{
 				return 2;}
-			
 		}
 		
-		for (i=0; 1<side; ++i) {
+		for (i=0; i<side; ++i) {
 			if (acc[i] != 1) {
 				return 1;
 			}
 		}
 		
+		
 	}
-	
 	
 	//COLUMN
 	for (k=0; k<side; ++k) {
-		for (i=0; 1<side; ++i) {
+		for (i=0; i<side; ++i) {
 			acc[i]=0;
 		}
 		
-		for (i=0; 1<side; ++i) {
-			if (aux = get_value(&board[i][k])) {
+		for (i=0; i<side; ++i) {
+			if ((aux = get_value(&board[i][k]))) {
 				acc[aux-1]++;}
 			else{
 				return 2;}
 			
 		}
 		
-		for (i=0; 1<side; ++i) {
+		for (i=0; i<side; ++i) {
 			if (acc[i] != 1) {
 				return 1;
 			}
@@ -206,38 +220,38 @@ int check_solution(struct cell** board, int side){
 		for (x=0; x<l; ++x) {
 			int hoffset =x*l;
 			
-			for (i=0; 1<side; ++i) {
+			for (i=0; i<side; ++i) {
 				acc[i]=0;
 			}
 			
 			for (i=0; i<l; ++i) {
 				for (j=0; j<l; ++j) {
-					if (aux = get_value(&board[i+voffset][j+hoffset])) {
+					if ((aux = get_value(&board[i+voffset][j+hoffset]))) {
 						acc[aux-1]++;}
 					else{
 						return 2;}
 				}
 			}
 			
-			for (i=0; 1<side; ++i) {
+			for (i=0; i<side; ++i) {
 				if (acc[i] != 1) {
 					return 1;
 				}
 			}
 		}
 	}
-		
+	
 	return 0;
 }
 
 
-
 int solve_sudoku(struct cell** board, int side){
-	int l = sqrt(side);
-	int i, j;
+	int i;
 	flag =1;
-	while (singleton(board, side)){}
-	
+	for (i=0; i<10; ++i) {
+		while (alone(board, side)){}
+		while (singleton(board, side)){}
+	}
 	
 	switch (check_solution(board, side)) {
 		case 0:
