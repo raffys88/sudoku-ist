@@ -12,11 +12,16 @@
 		38576A11126E39C100415844 /* serie_motor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = serie_motor.c; sourceTree = "<group>"; };
 		38576A47126E4E5100415844 /* messages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = messages.h; sourceTree = "<group>"; };
 		38576A62126E531200415844 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		38576AAC126E58B300415844 /* board.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = board.txt; sourceTree = "<group>"; };
+		38576AAC126E58B300415844 /* 6-9x9.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "6-9x9.txt"; sourceTree = "<group>"; };
 		38A5E46B127812810072B9DA /* check.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = check.c; sourceTree = "<group>"; };
 		38A5E46C127812A20072B9DA /* result.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = result.txt; sourceTree = "<group>"; };
 		38BD5130126EDA29003CADFB /* cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cell.h; sourceTree = "<group>"; };
 		38BD5131126EDA29003CADFB /* cell.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cell.c; sourceTree = "<group>"; };
+		38C0C1C9127AFA190087973C /* 1-2x2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "1-2x2.txt"; sourceTree = "<group>"; };
+		38C0C1CA127AFA470087973C /* 2-3x3.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "2-3x3.txt"; sourceTree = "<group>"; };
+		38C0C1CB127AFA7B0087973C /* 3-4x4.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "3-4x4.txt"; sourceTree = "<group>"; };
+		38C0C1CC127AFA940087973C /* 4-5x5.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "4-5x5.txt"; sourceTree = "<group>"; };
+		38C0C1CD127AFABA0087973C /* 5-8x8.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "5-8x8.txt"; sourceTree = "<group>"; };
 		C6A0FF2C0290799A04C91782 /* Sudoku.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Sudoku.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -40,10 +45,9 @@
 				38576A10126E39C100415844 /* serie_motor.h */,
 				38576A11126E39C100415844 /* serie_motor.c */,
 				38576A62126E531200415844 /* Makefile */,
-				38576AAC126E58B300415844 /* board.txt */,
+				38C0C1C8127AF9F00087973C /* testes */,
 				38BD5130126EDA29003CADFB /* cell.h */,
 				38BD5131126EDA29003CADFB /* cell.c */,
-				38A5E46C127812A20072B9DA /* result.txt */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -53,6 +57,20 @@
 			children = (
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		38C0C1C8127AF9F00087973C /* testes */ = {
+			isa = PBXGroup;
+			children = (
+				38A5E46C127812A20072B9DA /* result.txt */,
+				38C0C1C9127AFA190087973C /* 1-2x2.txt */,
+				38C0C1CA127AFA470087973C /* 2-3x3.txt */,
+				38C0C1CB127AFA7B0087973C /* 3-4x4.txt */,
+				38C0C1CC127AFA940087973C /* 4-5x5.txt */,
+				38C0C1CD127AFABA0087973C /* 5-8x8.txt */,
+				38576AAC126E58B300415844 /* 6-9x9.txt */,
+			);
+			name = testes;
 			sourceTree = "<group>";
 		};
 		C6A0FF2B0290797F04C91782 /* Documentation */ = {
