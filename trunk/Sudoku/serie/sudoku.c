@@ -1,12 +1,19 @@
+/*
+ *  sudoku.c
+ *  Sudoku
+ *
+ *  Created by Rui Boazinha on 10/19/10.
+ *  Copyright 2010 IST. All rights reserved.
+ *
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
 #include "cell.h"
 #include "serie_motor.h"
-#include "messages.h"
 
-struct cell** board;
+
 
 
 
@@ -27,26 +34,7 @@ int is_white_space(char c){
 }
 
 
-int create_board(FILE* input_file){
-	int l, side=0, i = 0, j = 0;
-	
-	fscanf(input_file, "%d", &l);
-	
-	side = l * l;
-	
-	board = (cell_ptr*) calloc(side, sizeof(cell_ptr));
-	
-	for(i=0; i<side; i++){
-		board[i] = (cell_ptr) calloc(side, sizeof(struct cell));
-		for (j=0; j<side;j++){
-			create_cell(&board[i][j], side);
-		}
-	}
-	return side;
-}
-
-
-void init_board(FILE* input_file, int side){
+void init_board(sudoku_board board, FILE* input_file, int side){
 	int i=0, j=0, value=0;
 	
 	for (i=0; i<side; ++i) {
@@ -66,8 +54,7 @@ void init_board(FILE* input_file, int side){
 }
 
 
-
-void print_board(int side){
+void print_board(sudoku_board board, int side){
 	int i=0, j=0;
 	for (i=0; i<side; ++i) {
 		for (j=0; j<side; ++j) {
@@ -78,15 +65,15 @@ void print_board(int side){
 }
 
 
-void print_possibles_board(int side){
+void print_possibles_board(sudoku_board board, int side){
 	int i=0, j=0, k;
 	for (i=0; i<side; ++i) {
 		for (j=0; j<side; ++j) {
-			printf("(%2d)", board[i][j].possibles);
+			printf("(%d)", board[i][j].possibles);
 			for (k=0; k<side; k++){
 				if(board[i][j].possible){
 					if (board[i][j].possible[k]) {
-						printf("%2d", board[i][j].possible[k]);
+						printf("%d", board[i][j].possible[k]);
 					}
 					else
 						printf(".");
@@ -105,29 +92,33 @@ void print_possibles_board(int side){
 
 
 int main (int argc, const char * argv[]) {
-    int side = 0;
+    int side = 0, l;
 	const char* filename = argv[1];
 	FILE* input_file;
 	
 	
 	input_file = fopen(filename, "r");
 	if (!input_file){
-		perror(EFILE);
+		perror("ERROR: Error on file opening.\n");
 		return 1;
 	}
+		
+	fscanf(input_file, "%d", &l);
 	
-	side = create_board(input_file);
+	side = l*l;
+	sudoku_board board = create_board(side);
 	
-	init_board(input_file, side);
+	init_board(board, input_file, side);
 	
 	//print_possibles_board(side);
 	
 	solve_sudoku(board, side);
 	
-	//print_possibles_board(side);
+	//print_possibles_board(board, side);
 	
-	//print_board(side);
+	print_board(board, side);
 	
+	delete_board(board, side);
 	
 	return 0;
 }
