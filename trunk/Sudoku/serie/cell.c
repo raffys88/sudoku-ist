@@ -9,12 +9,12 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "cell.h"
 
 int create_cell(cell_ptr position, int side){
 	int i = 0;
-	
 	position->possible = (int*) calloc(side, sizeof(int*));
 	position->value = 0;
 	position->possibles = side;
@@ -24,6 +24,10 @@ int create_cell(cell_ptr position, int side){
 	}
 	
 	return 0;
+}
+
+void delete_cell(cell_ptr position, int side){
+	free(position->possible);
 }
 
 
@@ -48,13 +52,19 @@ int get_possibles(cell_ptr position){
 
 
 
-int set_value(cell_ptr position, int value){
-	
+int set_value(cell_ptr position, int side, int value){
+	int i;
 	position->value = value;
 	position->possibles=0;
-	free(position->possible);
-	position->possible = NULL;
-	
+	for (i=0; i<side; ++i) {
+		position->possible[i]=0;
+	}
+	return 0;
+}
+
+
+int try_value(cell_ptr position, int value){
+	position->value = value;
 	return 0;
 }
 
@@ -62,7 +72,7 @@ int set_value(cell_ptr position, int value){
 
 int delete_possible(cell_ptr position, int value,int side){
 	//printf("\tpossibles-%d-", position->possibles);
-	int i;
+	int i ,alt=0;
 	if (position->possibles < 1) {
 		//	printf("%d\n", position->possibles);
 		return 0;
@@ -70,6 +80,7 @@ int delete_possible(cell_ptr position, int value,int side){
 	for (i=0; i<side; i++) {
 		
 		if (position->possible[i] == value) {
+			alt=1;
 			position->possible[i] = 0;
 			position->possibles-=1;
 			return position->possibles;
@@ -77,7 +88,7 @@ int delete_possible(cell_ptr position, int value,int side){
 	}
 	
 	//printf("%d\n", position->possibles);
-	return position->possibles;
+	return alt;
 }
 
 
@@ -102,8 +113,15 @@ int* get_possibles_list(cell_ptr position){
 
 
 
-
-
-
+int equals_possibles(cell_ptr one_position, cell_ptr two_position, int side){
+	int i;
+	
+	for (i=0; i<side; ++i) {
+		if ((one_position->possible[i]) != (two_position->possible[i]))  {
+			return 0;
+		}
+	}
+	return 1;
+}
 
 
