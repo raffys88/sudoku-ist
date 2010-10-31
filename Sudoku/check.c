@@ -123,4 +123,5 @@ int main(int argc, char **argv)
 
   if (i < 0)
     printf("valid sudoku\n");
+return 0;
 }
