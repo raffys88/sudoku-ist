@@ -309,10 +309,10 @@ int singleton(sudoku_board board, int side, int row1, int column1, int row2, int
 
 
 int pairs(sudoku_board board, int side, int row1, int column1, int row2, int column2){
-	int i, j, k, n, m, alt=0, l=sqrt(side), voffset, hoffset;
+	int i, j, k, n, m, o, p, alt=0, l=sqrt(side), voffset, hoffset;
 	struct cell* squares[side];
 
-#pragma omp parallel for private(i, j, n, m, l, voffset, hoffset, squares, side, row1, column1, row2, column2)
+#pragma omp parallel for private(i, j, n, m)
 			//COLUMN
 			for (k=column1; k<column2; ++k) 
 				for (i=0; i<side; ++i) 
@@ -326,7 +326,7 @@ int pairs(sudoku_board board, int side, int row1, int column1, int row2, int col
 												if (board[j][k].possible[m]) 
 													alt += delete_possible(&board[n][k], board[j][k].possible[m], side);
 
-#pragma omp parallel for private(i, j, n, m, l, voffset, hoffset, squares, side, row1, column1, row2, column2)			
+#pragma omp parallel for private(i, j, n, m)			
 			//ROW
 			for (k=row1; k<row2; ++k) 
 				for (i=0; i<side; ++i)
@@ -348,11 +348,13 @@ int pairs(sudoku_board board, int side, int row1, int column1, int row2, int col
 				int hoffset = column1/l;
 				
 				k=0;
-// SE METER ESTE DA CORE DUMP NO TESTE 4-5x5	
-//#pragma omp parallel for private(i, j, n, m, l, voffset, hoffset, squares, side, row1, column1, row2, column2)			
-				for (i=0; i<l; ++i)
-					for (j=0; j<l; ++j)
-						squares[k++]=&board[i+voffset*l][j+hoffset*l];
+#pragma omp parallel for private(i, j)
+				for (i=0; i<l; i++)
+					for (j=0; j<l; j++){
+						squares[k]=&board[i+voffset*l][j+hoffset*l];
+						k++;
+					}
+#pragma omp parallel for private(j, n, m)
 				for (i=0; i<side; ++i){
 					if (get_possibles(squares[i])==2) 
 						for (j=i+1; j<side; ++j) 
@@ -368,12 +370,11 @@ int pairs(sudoku_board board, int side, int row1, int column1, int row2, int col
 			}
 			else {
 
-// SE METER ESTE DA CORE DUMP NO TESTE 4-5x5				
-//#pragma omp parallel for private(i, j, k, m, l, voffset, hoffset, squares, side, row1, column1, row2, column2)			
-				for (n=0; n<l; ++n)
-					for (m=0; m<l; ++m) {
-						voffset = n/l;
-						hoffset = m/l;
+#pragma omp parallel for private(p, m, n, i, j)			
+				for (o=0; o<l; ++o)
+					for (p=0; p<l; ++p) {
+						voffset = o/l;
+						hoffset = p/l;
 						k=0;
 						for (i=0; i<l; ++i)
 							for (j=0; j<l; ++j)
