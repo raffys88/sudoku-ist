@@ -71,10 +71,8 @@ int try_value(cell_ptr position, int value){
 
 
 int delete_possible(cell_ptr position, int value,int side){
-	//printf("\tpossibles-%d-", position->possibles);
 	int i ,alt=0;
 	if (position->possibles < 1) {
-		//	printf("%d\n", position->possibles);
 		return 0;
 	}
 	for (i=0; i<side; i++) {
@@ -87,7 +85,6 @@ int delete_possible(cell_ptr position, int value,int side){
 		}
 	}
 	
-	//printf("%d\n", position->possibles);
 	return alt;
 }
 

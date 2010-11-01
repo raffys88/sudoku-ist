@@ -3,7 +3,7 @@
 #include <math.h>
 
 #include "cell.h"
-#include "serie_motor.h"
+#include "omp_motor.h"
 
 
 
