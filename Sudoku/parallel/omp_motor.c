@@ -7,10 +7,11 @@
  *
  */
 
-#include "serie_motor.h"
+#include "omp_motor.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <omp.h>
 
 
 sudoku_board create_board(int side){
@@ -69,56 +70,38 @@ int possible_value(sudoku_board board, int side, int row, int column, int value)
 	return 1;
 }
 
-
 int check_solution(sudoku_board board, int side){
-	int i, j, x, k, n, aux, l=sqrt(side);
-	int acc[side];
+	int i, j, x, k, n, aux, l=sqrt(side), error=0, empty=0;
+	int acc_row[side], acc_column[side], acc[side] ;
 	
 	
 	//ROW
 	for (k=0; k < side; ++k) {
 		
+		
 		for (i=0; i<side; ++i) {
-			acc[i]=0;
+			acc_row[i]=0;
+			acc_column[i]=0;
 		}
 		
 		for (i=0; i < side; ++i) {
-			if ((aux = get_value(&board[k][i]))) {
-				acc[aux-1]++;}
-			else{
-				return 2;}
+			if ((aux = get_value(&board[k][i]))) 
+				acc_row[aux-1]++;
+			else
+				++empty;
+			if ((aux = get_value(&board[i][k]))) 
+				acc_column[aux-1]++;
+			else
+				++empty;
 		}
 		
 		for (i=0; i<side; ++i) {
-			if (acc[i] != 1) {
-				return 1;
+			if ((acc_row[i] != 1) || (acc_column[i] != 1)) {
+				++error;
 			}
 		}
-		
-		
 	}
 	
-	//COLUMN
-	for (k=0; k<side; ++k) {
-		for (i=0; i<side; ++i) {
-			acc[i]=0;
-		}
-		
-		for (i=0; i<side; ++i) {
-			if ((aux = get_value(&board[i][k]))) {
-				acc[aux-1]++;}
-			else{
-				return 2;}
-			
-		}
-		
-		for (i=0; i<side; ++i) {
-			if (acc[i] != 1) {
-				return 1;
-			}
-		}
-		
-	}
 	
 	//SQUARE
 	for (n=0; n<l; ++n) {
@@ -135,19 +118,26 @@ int check_solution(sudoku_board board, int side){
 					if ((aux = get_value(&board[i+voffset][j+hoffset]))) {
 						acc[aux-1]++;}
 					else{
-						return 2;}
+						++empty;}
 				}
 			}
 			
 			for (i=0; i<side; ++i) {
 				if (acc[i] != 1) {
-					return 1;
+					++error;
 				}
 			}
 		}
 	}
 	
+	
+	if (empty) 
+		return 2;
+	if (error) 
+		return 1;
 	return 0;
+	
+	
 }
 
 
@@ -174,6 +164,8 @@ int found_value(sudoku_board board, int side, int line, int col, int value){
 
 int alone(sudoku_board board, int side){
 	int dif=0, i, j, k;
+#pragma omp parallel for private(j, k)
+	
 	for (i=0; i<side; ++i) {
 		for (j=0; j<side; ++j) {
 			if ((board[i][j].possibles)==1) {
@@ -187,6 +179,7 @@ int alone(sudoku_board board, int side){
 			}
 		}
 	}
+	
 	return dif;
 }
 
@@ -549,7 +542,7 @@ int recursive_solution(sudoku_board board, int side, int row, int column){
 
 int solve_sudoku(sudoku_board board, int side){
 	int i=0;
-	
+	omp_set_num_threads(4);
 	while (1){
 		//printf("\tALONE\n");
 		if (alone(board, side))
@@ -566,7 +559,6 @@ int solve_sudoku(sudoku_board board, int side){
 			continue;
 		if (check_solution(board, side)==0)
 			break;
-		//print_board(board, side);
 		//printf("\t\t\t\tBAD POSSIBLE\n");
 		i=bad_possible_elimination(board, side);
 		//printf(" %d\n", i);

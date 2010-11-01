@@ -71,52 +71,35 @@ int possible_value(sudoku_board board, int side, int row, int column, int value)
 
 
 int check_solution(sudoku_board board, int side){
-	int i, j, x, k, n, aux, l=sqrt(side);
-	int acc[side];
+	int i, j, x, k, n, aux, l=sqrt(side), error=0, empty=0;
+	int acc_row[side], acc_column[side], acc[side] ;
 	
 	
 	//ROW
 	for (k=0; k < side; ++k) {
 		
 		for (i=0; i<side; ++i) {
-			acc[i]=0;
+			acc_row[i]=0;
+			acc_column[i]=0;
 		}
 		
 		for (i=0; i < side; ++i) {
-			if ((aux = get_value(&board[k][i]))) {
-				acc[aux-1]++;}
-			else{
-				return 2;}
+			if ((aux = get_value(&board[k][i]))) 
+				acc_row[aux-1]++;
+			else
+				++empty;
+			if ((aux = get_value(&board[i][k]))) 
+				acc_column[aux-1]++;
+			else
+				++empty;
 		}
 		
 		for (i=0; i<side; ++i) {
-			if (acc[i] != 1) {
-				return 1;
+			if ((acc_row[i] != 1) || (acc_column[i] != 1)) {
+				++error;
 			}
 		}
 		
-		
-	}
-	
-	//COLUMN
-	for (k=0; k<side; ++k) {
-		for (i=0; i<side; ++i) {
-			acc[i]=0;
-		}
-		
-		for (i=0; i<side; ++i) {
-			if ((aux = get_value(&board[i][k]))) {
-				acc[aux-1]++;}
-			else{
-				return 2;}
-			
-		}
-		
-		for (i=0; i<side; ++i) {
-			if (acc[i] != 1) {
-				return 1;
-			}
-		}
 		
 	}
 	
@@ -135,19 +118,25 @@ int check_solution(sudoku_board board, int side){
 					if ((aux = get_value(&board[i+voffset][j+hoffset]))) {
 						acc[aux-1]++;}
 					else{
-						return 2;}
+						++empty;}
 				}
 			}
 			
 			for (i=0; i<side; ++i) {
 				if (acc[i] != 1) {
-					return 1;
+					++error;
 				}
 			}
 		}
 	}
 	
+	if (empty) 
+		return 2;
+	if (error) 
+		return 1;
 	return 0;
+	
+
 }
 
 
