@@ -1,107 +1,0 @@
-TSudoku
-v7
-r0
-t309216675.825735
-cCheck dependencies
-cCompileC build/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/sudoku.o /Users/ruiboazinha/Desktop/Sudoku/sudoku.c normal x86_64 c com.apple.compilers.gcc.4_2
-cCompileC build/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/serie_motor.o /Users/ruiboazinha/Desktop/Sudoku/serie_motor.c normal x86_64 c com.apple.compilers.gcc.4_2
-cLd /Users/ruiboazinha/Desktop/Sudoku/build/Debug/Sudoku normal x86_64
-
-N/Developer/SDKs/MacOSX10.6.sdk
-c000000004A769DAB00000000000000EE
-t1249287595
-s238
-
-N/Developer/SDKs/MacOSX10.6.sdk/usr/include/stdio.h
-c000000004A5C14A70000000000004174
-t1247548583
-s16756
-
-N/Users/ruiboazinha/Desktop/Sudoku/build/Debug/Sudoku
-t1287523875
-s9128
-
-N/Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/Sudoku.LinkFileList
-c000000004CBE0E2300000000000000D3
-t1287523875
-s211
-
-N/Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/main.o
-t2
-s0
-
-N/Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/serie_motor.o
-t1287523875
-s1508
-
-N/Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/sudoku.o
-t1287523873
-s3200
-
-N/Users/ruiboazinha/Desktop/Sudoku/main.c
-c000000004CBE02260000000000000089
-t1287520806
-s137
-i<stdio.h>
-
-N/Users/ruiboazinha/Desktop/Sudoku/serie_motor.c
-c000000004CBE0241000000000000009B
-t1287520833
-s155
-i"serie_motor.h"
-
-N/Users/ruiboazinha/Desktop/Sudoku/serie_motor.h
-c000000004CBE02410000000000000081
-t1287520833
-s129
-
-N/Users/ruiboazinha/Desktop/Sudoku/sudoku.c
-c000000004CBE0E200000000000000128
-t1287523872
-s296
-i<stdio.h>
-i"serie_motor.h"
-
-CCheck dependencies
-r0
-lSLF07#2@18"Check dependencies309216675#309216675#0(0"0(0#1#0"8631821504#0"0#
-
-CCompileC build/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/main.o /Users/ruiboazinha/Desktop/Sudoku/main.c normal x86_64 c com.apple.compilers.gcc.4_2
-r0
-
-CCompileC build/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/serie_motor.o /Users/ruiboazinha/Desktop/Sudoku/serie_motor.c normal x86_64 c com.apple.compilers.gcc.4_2
-s309216675.285839
-e309216675.372598
-r1
-xCompileC
-xbuild/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/serie_motor.o
-x/Users/ruiboazinha/Desktop/Sudoku/serie_motor.c
-xnormal
-xx86_64
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@55"Compile /Users/ruiboazinha/Desktop/Sudoku/serie_motor.c309216675#309216675#0(0"0(0#0#47"/Users/ruiboazinha/Desktop/Sudoku/serie_motor.c8621243904#1211"    cd /Users/ruiboazinha/Desktop/Sudoku    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Sudoku-generated-files.hmap -I/Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Sudoku-own-target-headers.hmap -I/Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Sudoku-all-target-headers.hmap -iquote /Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Sudoku-project-headers.hmap -F/Users/ruiboazinha/Desktop/Sudoku/build/Debug -I/Users/ruiboazinha/Desktop/Sudoku/build/Debug/include -I/Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/DerivedSources/x86_64 -I/Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/DerivedSources -c /Users/ruiboazinha/Desktop/Sudoku/serie_motor.c -o /Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/serie_motor.o0#
-
-CCompileC build/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/sudoku.o /Users/ruiboazinha/Desktop/Sudoku/sudoku.c normal x86_64 c com.apple.compilers.gcc.4_2
-s309216675.283035
-e309216675.285763
-r1
-xCompileC
-xbuild/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/sudoku.o
-x/Users/ruiboazinha/Desktop/Sudoku/sudoku.c
-xnormal
-xx86_64
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@50"Compile /Users/ruiboazinha/Desktop/Sudoku/sudoku.c309216675#309216675#0(180"/Users/ruiboazinha/Desktop/Sudoku/sudoku.c: In function 'main':/Users/ruiboazinha/Desktop/Sudoku/sudoku.c:13: warning: initialization discards qualifiers from pointer target type1(22@59"Initialization discards qualifiers from pointer target type309216675#64#116#0(6@42"/Users/ruiboazinha/Desktop/Sudoku/sudoku.c309216672#13#0#13#0#0"0(0#0#42"/Users/ruiboazinha/Desktop/Sudoku/sudoku.c8631137120#1201"    cd /Users/ruiboazinha/Desktop/Sudoku    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Sudoku-generated-files.hmap -I/Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Sudoku-own-target-headers.hmap -I/Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Sudoku-all-target-headers.hmap -iquote /Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Sudoku-project-headers.hmap -F/Users/ruiboazinha/Desktop/Sudoku/build/Debug -I/Users/ruiboazinha/Desktop/Sudoku/build/Debug/include -I/Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/DerivedSources/x86_64 -I/Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/DerivedSources -c /Users/ruiboazinha/Desktop/Sudoku/sudoku.c -o /Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/sudoku.o0#
-
-CLd /Users/ruiboazinha/Desktop/Sudoku/build/Debug/Sudoku normal x86_64
-s309216675.372690
-e309216675.825685
-r1
-xLd
-x/Users/ruiboazinha/Desktop/Sudoku/build/Debug/Sudoku
-xnormal
-xx86_64
-lSLF07#2@57"Link /Users/ruiboazinha/Desktop/Sudoku/build/Debug/Sudoku309216675#309216675#0(0"0(0#0#0"8620111456#469"    cd /Users/ruiboazinha/Desktop/Sudoku    setenv MACOSX_DEPLOYMENT_TARGET 10.6    /Developer/usr/bin/gcc-4.2 -arch x86_64 -isysroot /Developer/SDKs/MacOSX10.6.sdk -L/Users/ruiboazinha/Desktop/Sudoku/build/Debug -F/Users/ruiboazinha/Desktop/Sudoku/build/Debug -filelist /Users/ruiboazinha/Desktop/Sudoku/build/Sudoku.build/Debug/Sudoku.build/Objects-normal/x86_64/Sudoku.LinkFileList -mmacosx-version-min=10.6 -o /Users/ruiboazinha/Desktop/Sudoku/build/Debug/Sudoku0#
-
