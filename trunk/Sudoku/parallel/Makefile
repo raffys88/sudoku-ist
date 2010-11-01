@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS =  -Wall -fopenmp 
 
 
-build: build_cell build_motor build_check
+build: clear build_cell build_motor build_check
 	$(CC) $(CFLAGS) -fopenmp -o sudoku sudoku.c cell.o motor.o 
 
 

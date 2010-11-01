@@ -99,29 +99,29 @@ int main(int argc, char **argv)
   for (i = NUMS * NUMS - 1; i >= 0; i--){
 
     if (a[i] <= 0 || a[i] > NUMS) {
-      printf("failed test\n");
+      printf("--failed test\n\n");
       break;
     }
 
     //printf("testing value: %i\n", i);
     if (!test_col(i)){
-      printf("failed test\n");
+      printf("--failed test\n\n");
       break;
     }
     
     if (!test_line(i)){
-      printf("failed test\n");
+      printf("--failed test\n\n");
       break;
     }
     
     if (!test_square(i)){
-      printf("failed test\n");
+      printf("--failed test\n\n");
       break;
     }
     
   }
 
   if (i < 0)
-    printf("valid sudoku\n");
+    printf("--valid sudoku\n\n");
 return 0;
 }

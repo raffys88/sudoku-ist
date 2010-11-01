@@ -192,84 +192,67 @@ int singleton(sudoku_board board, int side, int row1, int column1, int row2, int
 	int* square[side];
 	int ret =0;
 	
-	
-	//	printf("LINE\n\n");
-	for (k=row1; k<row2; ++k) {
-		
-		for (i=0; i<side; ++i) {
-			line[i] = board[k][i].possible;
-		}
-		
-		for (j=0; j<side; ++j) {
-			acc=0;
-			val=-1;
-			for (i=0; i<side; ++i)
-				if ((line[i]!=NULL) && (line[i][j] == (j+1))) {
-					++acc;
-					val=i;
+#pragma omp parallel sections private(i, j, k, line, colu, square, acc, val)
+	{
+#pragma omp section
+		{
+			//	printf("LINE\n\n");
+			for (k=row1; k<row2; ++k) {
+				
+				for (i=0; i<side; ++i) {
+					line[i] = board[k][i].possible;
 				}
+				
+				for (j=0; j<side; ++j) {
+					acc=0;
+					val=-1;
+					for (i=0; i<side; ++i)
+						if ((line[i]!=NULL) && (line[i][j] == (j+1))) {
+							++acc;
+							val=i;
+						}
+					
+					if (acc == 1) {
+						found_value(board, side, k, val, j+1);
+						++ret;
+					}
+				}
+			}
 			
-			if (acc == 1) {
-				found_value(board, side, k, val, j+1);
-				++ret;
-			}
 		}
-	}
-	
-	
-	//	printf("\nCOL\n\n");
-	for (k=column1; k<column2; ++k) {
-		
-		for (i=0; i<side; ++i) {
-			colu[i] = board[i][k].possible;
-		}
-		
-		for (j=0; j<side; ++j) {
-			acc=0;
-			val=-1;
-			for (i=0; i<side; ++i)
-				if ((colu[i]!=NULL) && (colu[i][j] == (j+1))) {
-					++acc;
-					val=i;
+#pragma omp section
+		{
+			//	printf("\nCOL\n\n");
+			for (k=column1; k<column2; ++k) {
+				
+				for (i=0; i<side; ++i) {
+					colu[i] = board[i][k].possible;
 				}
-			if (acc == 1) {
-				found_value(board, side, val, k, j+1);
-				++ret;
-			}
-		}
-	}
-	
-	//	printf("\nSQUARE\n\n");
-	if (row1+1==row2 && column1+1==column2) {
-		
-		int	voffset = row1/l;
-		int hoffset = column1/l;
-		
-		m=0;
-		for (i=0; i<l; ++i)
-			for (j=0; j<l; ++j)
-				square[m++] = board[i+voffset][j+hoffset].possible;
-		
-		for (j=0; j<side; ++j) {
-			acc=0;
-			val=-1;
-			for (i=0; i<side; ++i)
-				if ((square[i]!=NULL) && (square[i][j] == (j+1))){
-					++acc;
-					val=i;
+				
+				for (j=0; j<side; ++j) {
+					acc=0;
+					val=-1;
+					for (i=0; i<side; ++i)
+						if ((colu[i]!=NULL) && (colu[i][j] == (j+1))) {
+							++acc;
+							val=i;
+						}
+					if (acc == 1) {
+						found_value(board, side, val, k, j+1);
+						++ret;
+					}
 				}
-			if (acc == 1) {
-				found_value(board, side, voffset + val/l, hoffset+val%l, j+1);
-				++ret;
 			}
+			
 		}
-		
-	}
-	else {
-		for (n=0; n<l; ++n) {
-			int	voffset = n*l;
-			for (x=0; x<l; ++x) {
-				int hoffset = x*l;
+#pragma omp section
+		{
+			
+			//	printf("\nSQUARE\n\n");
+			if (row1+1==row2 && column1+1==column2) {
+				
+				int	voffset = row1/l;
+				int hoffset = column1/l;
 				
 				m=0;
 				for (i=0; i<l; ++i)
@@ -289,10 +272,37 @@ int singleton(sudoku_board board, int side, int row1, int column1, int row2, int
 						++ret;
 					}
 				}
+				
+			}
+			else {
+				for (n=0; n<l; ++n) {
+					int	voffset = n*l;
+					for (x=0; x<l; ++x) {
+						int hoffset = x*l;
+						
+						m=0;
+						for (i=0; i<l; ++i)
+							for (j=0; j<l; ++j)
+								square[m++] = board[i+voffset][j+hoffset].possible;
+						
+						for (j=0; j<side; ++j) {
+							acc=0;
+							val=-1;
+							for (i=0; i<side; ++i)
+								if ((square[i]!=NULL) && (square[i][j] == (j+1))){
+									++acc;
+									val=i;
+								}
+							if (acc == 1) {
+								found_value(board, side, voffset + val/l, hoffset+val%l, j+1);
+								++ret;
+							}
+						}
+					}
+				}
 			}
 		}
 	}
-
 	
 	return ret;
 }
@@ -301,63 +311,45 @@ int singleton(sudoku_board board, int side, int row1, int column1, int row2, int
 int pairs(sudoku_board board, int side, int row1, int column1, int row2, int column2){
 	int i, j, k, n, m, alt=0, l=sqrt(side), voffset, hoffset;
 	struct cell* squares[side];
-	
-	//COLUMN
-	for (k=column1; k<column2; ++k) 
-		for (i=0; i<side; ++i) 
-			if (get_possibles(&board[i][k])==2) 
-				for (j=i+1; j<side; ++j) 
-					if ((get_possibles(&board[j][k]))==2) 
-						if (equals_possibles(&board[i][k], &board[j][k], side)) 
-							for (n=0; n<side; n++) 
-								if ((n!=i) && (n!=j))
-									for (m=0; m<side; ++m) 
-										if (board[j][k].possible[m]) 
-											alt += delete_possible(&board[n][k], board[j][k].possible[m], side);
-	
-	//ROW
-	for (k=row1; k<row2; ++k) 
-		for (i=0; i<side; ++i)
-			if (get_possibles(&board[k][i])==2) 
-				for (j=i+1; j<side; ++j) 
-					if ((get_possibles(&board[k][j]))==2) 
-						if (equals_possibles(&board[k][i], &board[k][j], side)) 
-							for (n=0; n<side; n++) 
-								if ((n!=i) && (n!=j))
-									for (m=0; m<side; ++m) 
-										if (board[k][j].possible[m]) 
-											alt += delete_possible(&board[k][n], board[k][j].possible[m], side);
-	
-	
-	//SQUARES
-	if (row1+1==row2 && column1+1==column2) {
-		
-		int	voffset = row1/l;
-		int hoffset = column1/l;
-		
-		k=0;
-		for (i=0; i<l; ++i)
-			for (j=0; j<l; ++j)
-				squares[k++]=&board[i+voffset*l][j+hoffset*l];
-		for (i=0; i<side; ++i){
-			if (get_possibles(squares[i])==2) 
-				for (j=i+1; j<side; ++j) 
-					if ((get_possibles(squares[j]))==2) 
-						if (equals_possibles(squares[i], squares[j], side)) 
-							for (n=0; n<side; n++) 
-								if ((n!=i) && (n!=j))
-									for (m=0; m<side; ++m) 
-										if (squares[j]->possible[m]) 
-											alt += delete_possible(squares[n], squares[j]->possible[m], side);
-		}
-		
-	}
-	else {
-		for (n=0; n<l; ++n)
-			for (m=0; m<l; ++m) {
-				voffset = n/l;
-				hoffset = m/l;
+
+#pragma omp parallel for private(i, j, n, m, l, voffset, hoffset, squares, side, row1, column1, row2, column2)
+			//COLUMN
+			for (k=column1; k<column2; ++k) 
+				for (i=0; i<side; ++i) 
+					if (get_possibles(&board[i][k])==2)
+						for (j=i+1; j<side; ++j) 
+							if ((get_possibles(&board[j][k]))==2) 
+								if (equals_possibles(&board[i][k], &board[j][k], side)) 
+									for (n=0; n<side; n++) 
+										if ((n!=i) && (n!=j))
+											for (m=0; m<side; ++m) 
+												if (board[j][k].possible[m]) 
+													alt += delete_possible(&board[n][k], board[j][k].possible[m], side);
+
+#pragma omp parallel for private(i, j, n, m, l, voffset, hoffset, squares, side, row1, column1, row2, column2)			
+			//ROW
+			for (k=row1; k<row2; ++k) 
+				for (i=0; i<side; ++i)
+					if (get_possibles(&board[k][i])==2) 
+						for (j=i+1; j<side; ++j) 
+							if ((get_possibles(&board[k][j]))==2) 
+								if (equals_possibles(&board[k][i], &board[k][j], side)) 
+									for (n=0; n<side; n++) 
+										if ((n!=i) && (n!=j))
+											for (m=0; m<side; ++m) 
+												if (board[k][j].possible[m]) 
+													alt += delete_possible(&board[k][n], board[k][j].possible[m], side);
+			
+
+			//SQUARES
+			if (row1+1==row2 && column1+1==column2) {
+				
+				int	voffset = row1/l;
+				int hoffset = column1/l;
+				
 				k=0;
+// SE METER ESTE DA CORE DUMP NO TESTE 4-5x5	
+//#pragma omp parallel for private(i, j, n, m, l, voffset, hoffset, squares, side, row1, column1, row2, column2)			
 				for (i=0; i<l; ++i)
 					for (j=0; j<l; ++j)
 						squares[k++]=&board[i+voffset*l][j+hoffset*l];
@@ -374,7 +366,33 @@ int pairs(sudoku_board board, int side, int row1, int column1, int row2, int col
 				}
 				
 			}
-	}
+			else {
+
+// SE METER ESTE DA CORE DUMP NO TESTE 4-5x5				
+//#pragma omp parallel for private(i, j, k, m, l, voffset, hoffset, squares, side, row1, column1, row2, column2)			
+				for (n=0; n<l; ++n)
+					for (m=0; m<l; ++m) {
+						voffset = n/l;
+						hoffset = m/l;
+						k=0;
+						for (i=0; i<l; ++i)
+							for (j=0; j<l; ++j)
+								squares[k++]=&board[i+voffset*l][j+hoffset*l];
+						for (i=0; i<side; ++i){
+							if (get_possibles(squares[i])==2) 
+								for (j=i+1; j<side; ++j) 
+									if ((get_possibles(squares[j]))==2) 
+										if (equals_possibles(squares[i], squares[j], side)) 
+											for (n=0; n<side; n++) 
+												if ((n!=i) && (n!=j))
+													for (m=0; m<side; ++m) 
+														if (squares[j]->possible[m]) 
+															alt += delete_possible(squares[n], squares[j]->possible[m], side);
+						}
+						
+					}
+			}
+
 	return alt;
 }
 
@@ -383,7 +401,7 @@ int bad_possible_elimination(sudoku_board board, int side){
 	int i, j, k, n, m,aa=0, abc, alone_ok=0;
 	sudoku_board test_board;
 	//	print_board(board, side);
-	
+#pragma omp parallel for private(j, k, n, m, abc, alone_ok, test_board)
 	for (i=0; i<side; ++i) {//ROW
 		for (j=0; j<side; ++j) {//COLUMN
 			//printf("row=%d  column=%d\n", i, j);
@@ -446,7 +464,10 @@ int bad_possible_elimination(sudoku_board board, int side){
 							case 0:
 								found_value(board, side, i, j, board[i][j].possible[k]);
 								delete_board(test_board, side);
-								return -1;
+								aa=-1;
+								i=side;
+								j=side;
+								k=side;
 							case 1:
 								delete_possible(&board[i][j], board[i][j].possible[k], side);
 								++aa;
@@ -542,31 +563,31 @@ int recursive_solution(sudoku_board board, int side, int row, int column){
 
 int solve_sudoku(sudoku_board board, int side){
 	int i=0;
-	omp_set_num_threads(4);
+	omp_set_num_threads(2);
 	while (1){
 		//printf("\tALONE\n");
 		if (alone(board, side))
 			continue;
 		if (check_solution(board, side)==0)
 			break;
-		//printf("\t\tSINGLETON\n");
+		//("\t\tSINGLETON\n");
 		if (singleton(board, side, 0, 0, side, side))
 			continue;
 		if (check_solution(board, side)==0)
 			break;
-		//printf("\t\t\tPAIRS\n");
+		//("\t\t\tPAIRS\n");
 		if (pairs(board, side, 0, 0, side, side))
 			continue;
 		if (check_solution(board, side)==0)
 			break;
-		//printf("\t\t\t\tBAD POSSIBLE\n");
+		//("\t\t\t\tBAD POSSIBLE\n");
 		i=bad_possible_elimination(board, side);
 		//printf(" %d\n", i);
 		if(i)
 			continue;
 		if (check_solution(board, side)==0)
 			break;
-		//printf("\t\t\t\t\tRECURSIVE\n");
+		//("\t\t\t\t\tRECURSIVE\n");
 		recursive_solution(board, side, 0, 0);
 		break;
 	}
