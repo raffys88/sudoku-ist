@@ -370,7 +370,7 @@ int pairs(sudoku_board board, int side, int row1, int column1, int row2, int col
 			}
 			else {
 
-#pragma omp parallel for private(p, m, n, i, j)			
+#pragma omp parallel for private(k, p, m, n, i, j)			
 				for (o=0; o<l; ++o)
 					for (p=0; p<l; ++p) {
 						voffset = o/l;
