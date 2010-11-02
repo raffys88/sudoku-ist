@@ -13,7 +13,12 @@
 #include <stdlib.h>
 #include <omp.h>
 
-
+/*
+ Create a new empty board
+	side - board size
+	returns one board pointer
+ 
+ */
 sudoku_board create_board(int side){
 	int i = 0, j = 0;
 	sudoku_board board = (sudoku_board) calloc(side, sizeof(cell_ptr));
@@ -27,7 +32,11 @@ sudoku_board create_board(int side){
 	return board;
 }
 
-
+/*
+ Delete the board
+ board - board pointer to free
+ side - board size
+ */
 void delete_board(sudoku_board board, int side){
 	int i, j;
 	
@@ -40,7 +49,10 @@ void delete_board(sudoku_board board, int side){
 	free(board);
 }
 
-
+/*
+ return 1 if the value is possible in the given position
+		0 if not
+ */
 int possible_value(sudoku_board board, int side, int row, int column, int value){
 	int i, j, l=sqrt(side);
 	
@@ -70,6 +82,12 @@ int possible_value(sudoku_board board, int side, int row, int column, int value)
 	return 1;
 }
 
+/*
+ check if the board is valid
+ return	0 - board complete and valid
+		1 - errors in the board
+		2 - board incomplete
+ */
 int check_solution(sudoku_board board, int side){
 	int i, j, x, k, n, aux, l=sqrt(side), error=0, empty=0;
 	int acc_row[side], acc_column[side], acc[side] ;
@@ -140,7 +158,9 @@ int check_solution(sudoku_board board, int side){
 	
 }
 
-
+/*
+ insert a value in board and actualize it
+ */
 int found_value(sudoku_board board, int side, int line, int col, int value){
 	int k, n, l=sqrt(side);
 	
