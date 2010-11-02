@@ -19,6 +19,7 @@ build_check:
 
 	
 clear:
+	rm -f *.o sudoku-omp
 	clear
 
 	
@@ -36,7 +37,7 @@ run_2: build
 	
 run_3: build 
 	time ./sudoku-omp ../tests/3-4x4.txt > ../result.txt
-	../check 4 < ../result.txt
+	../check  4 < ../result.txt
 	
 run_4: build 
 	time ./sudoku-omp ../tests/4-5x5.txt > ../result.txt

@@ -19,6 +19,7 @@ build_check:
 
 	
 clear:
+	rm -f *.o sudoku-serial
 	clear
 
 	
