@@ -1,0 +1,1 @@
+Seolve the sudoku puzzle in c
